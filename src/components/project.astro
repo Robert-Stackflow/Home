@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 const { name, description, url, image } = Astro.props;
 const noImage = !image;
 const showGithub = url.includes("github.com");
@@ -21,8 +22,12 @@ const showGithub = url.includes("github.com");
     {
       image && (
         <span class="block w-full p-2">
-          <img
+          <Image
             src={image}
+            alt={name}
+            width="5000"
+            height="4000"
+            loading="eager"
             class="w-full h-auto rounded-lg aspect-[16/9] object-cover"
           />
         </span>

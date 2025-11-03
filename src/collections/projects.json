@@ -26,11 +26,13 @@
 	{
 		"name": "HUST-Courses-Archive",
 		"description": "Archived courses from the School of Computer Science and Technology, Huazhong University of Science and Technology.",
+		"image": "/assets/images/projects/courses.png",
 		"url": "https://github.com/Robert-Stackflow/HUST-Courses-Archive"
 	},
 	{
 		"name": "HUST-Miniob",
 		"description": "Huazhong University of Science and Technology System Capability Training-DBMS.",
+		"image": "/assets/images/projects/miniob.png",
 		"url": "https://github.com/Robert-Stackflow/HUST-Miniob"
 	}
 ]

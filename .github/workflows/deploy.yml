@@ -1,4 +1,4 @@
-name: Build & Deploy Astro to AWS
+name: Build & Deploy Astro to COS
 
 on:
   push:

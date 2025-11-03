@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import experiences from "../collections/experiences.json";
 import AboutExperience from "../components/about-experience.astro";
 import PageHeading from "../components/page-heading.astro";
@@ -12,9 +13,11 @@ import Layout from "../layouts/main.astro";
       description="华中科技大学计算机科学与技术专业硕士在读，热爱编程与技术探索，喜欢分享知识与经验"
     />
 
-    <img
+    <Image
       src="https://picbed.cloudchewie.com/blog/gallery/dancae/dancae3.jpg"
       alt="Dancae"
+      inferSize={true}
+      loading="eager"
       class="relative z-30 w-full my-10 rounded-xl w-full h-full object-cover max-h-[300px] rounded-xl shadow-lg"
     />
 

@@ -1,6 +1,7 @@
 ---
 import Parser from "rss-parser";
 import PostItem from "../post-item.astro";
+import Button from "../button.astro";
 
 const feedUrl = "https://robert-stackflow.github.io/atom.xml";
 const parser = new Parser();
@@ -34,12 +35,7 @@ const latestPosts = feed.items.slice(0, 3).map((item) => ({
         {latestPosts.map((post) => <PostItem post={post} />)}
 
         <div class="flex items-center justify-center w-full py-5">
-          <a
-            href="/posts"
-            class="px-4 py-2 text-sm font-semibold text-white bg-neutral-900 rounded hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-800 dark:hover:bg-neutral-300"
-          >
-            查看所有文章
-          </a>
+          <Button text="查看所有文章" link="/posts" />
         </div>
       </div>
 
