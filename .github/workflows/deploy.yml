@@ -1,0 +1,54 @@
+name: Build & Deploy Astro to AWS
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Astro site
+        run: npm run build
+
+      # 上传到腾讯云 COS (S3 兼容方式)
+      - name: Upload to COS (Tencent Cloud)
+        uses: Robert-Stackflow/upload-s3-action@master
+        with:
+          endpoint: ${{ secrets.AWS_ENDPOINT }} # 例如：https://cos.ap-guangzhou.myqcloud.com
+          aws_key_id: ${{ secrets.AWS_SECRET_ID }} # 腾讯云 API 密钥
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ secrets.AWS_BUCKET }} # 存储桶名称，如 example-bucket
+          source_dir: dist # Astro 输出目录
+          destination_dir: / # 上传到桶的根目录，可改为指定文件夹
+
+      # 发送 PushPlus 通知
+      - name: Send PushPlus Notification
+        if: always() # 无论成功或失败都执行
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "token": "${{ secrets.PUSHPLUS_TOKEN }}",
+              "title": "🚀 Astro 部署完成",
+              "content": "项目已构建并上传至 AWS（分支：${{ github.ref_name }}）\n状态：${{ job.status }}",
+              "template": "txt"
+            }' \
+            https://www.pushplus.plus/send
