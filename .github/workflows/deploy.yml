@@ -43,12 +43,18 @@ jobs:
       - name: Send PushPlus Notification
         if: always() # 无论成功或失败都执行
         run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            STATUS_MSG="✅ 部署成功\n项目已构建并上传至 COS\n分支：${{ github.ref_name }}"
+          else
+            STATUS_MSG="❌ 部署失败\n请检查 GitHub Actions 日志\n分支：${{ github.ref_name }}"
+          fi
+
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d '{
-              "token": "${{ secrets.PUSHPLUS_TOKEN }}",
-              "title": "🚀 Astro 部署完成",
-              "content": "项目已构建并上传至 AWS（分支：${{ github.ref_name }}）\n状态：${{ job.status }}",
-              "template": "txt"
-            }' \
+            -d "{
+              \"token\": \"${{ secrets.PUSHPLUS_TOKEN }}\",
+              \"title\": \"Astro 部署结果通知\",
+              \"content\": \"${STATUS_MSG}\",
+              \"template\": \"txt\"
+            }" \
             https://www.pushplus.plus/send
