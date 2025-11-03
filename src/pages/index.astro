@@ -1,0 +1,64 @@
+---
+import Button from "../components/button.astro";
+import Projects from "../components/home/projects.astro";
+import Separator from "../components/home/separator.astro";
+import Writings from "../components/home/posts.astro";
+import Layout from "../layouts/main.astro";
+---
+
+<Layout title="息间">
+  <div
+    class="relative z-20 w-full max-w-5xl mx-auto mt-16 px-7 md:mt-24 lg:mt-32 xl:px-0"
+  >
+    <div class="flex flex-col items-center md:flex-row">
+      <div class="relative w-full md:w-1/2">
+        <h2
+          class="mb-5 text-4xl font-bold leading-tight md:text-4xl dark:text-white"
+        >
+          我是 Robert-Stackflow
+        </h2>
+        <p class="mb-6 text-base text-neutral-600 dark:text-neutral-400">
+          华中科技大学计算机科学与技术专业硕士在读，热爱编程与技术探索，喜欢分享知识与经验
+        </p>
+        <p class="mb-2 font-semibold text-neutral-800 dark:text-neutral-200">
+          我的兴趣所在：
+        </p>
+        <ul
+          class="py-2 space-y-[3px] text-sm list-disc list-inside text-neutral-500 dark:text-neutral-400"
+        >
+          <li>Node.js 开发</li>
+          <li>Flutter 应用开发</li>
+          <li>大语言模型</li>
+          <li>以及更多…</li>
+        </ul>
+        <Button
+          text="进入我的博客"
+          rel="noopener noreferrer"
+          target="_blank"
+          link="https://blog.cloudchewie.com"
+        />
+      </div>
+      <div
+        class="relative hidden w-full mt-10 md:flex md:pl-10 md:w-1/2 md:mt-0 md:items-center md:justify-center"
+      >
+        <div class="relative">
+          <img
+            src="https://picbed.cloudchewie.com/blog/index/avatar.png!mini"
+            alt="avatar"
+            class="w-56 h-56 md:w-72 md:h-72 object-cover rounded-full border-4 border-white dark:border-neutral-900 shadow-lg"
+          />
+          <span
+            class="absolute -top-3 -left-3 w-12 h-12 flex items-center justify-center text-2xl rounded-full border-4 border-white dark:border-neutral-900 bg-neutral-100 dark:bg-neutral-900 shadow"
+          >
+            👋
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Separator text="看看我的项目" />
+  <Projects />
+  <Separator text="我的一些写作" />
+  <Writings />
+</Layout>

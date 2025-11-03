@@ -1,0 +1,36 @@
+[
+	{
+		"name": "CloudOTP",
+		"description": "An awesome two-factor authenticator based on Flutter, supports Android, Windows and Linux platforms, and supports multiple cloud backup methods such as Onedrive, Dropbox, WebDAV, S3Cloud, etc.",
+		"image": "/assets/images/projects/cloudotp.png",
+		"url": "https://otp.cloudchewie.com"
+	},
+	{
+		"name": "Loftify",
+		"description": "A LOFTER third-party APP developed based on Flutter.",
+		"image": "/assets/images/projects/loftify.png",
+		"url": "https://github.com/Robert-Stackflow/Loftify"
+	},
+	{
+		"name": "Moment",
+		"description": "Modern photo album blog that supports self-hosting, developed based on Vue and Naive UI and FastAPI.",
+		"image": "/assets/images/projects/moment.png",
+		"url": "https://github.com/Robert-Stackflow/Moment"
+	},
+	{
+		"name": "Twitee",
+		"description": "A Twitter/X third-party APP developed based on Flutter.",
+		"image": "/assets/images/projects/twitee.png",
+		"url": "https://github.com/Robert-Stackflow/Twitee"
+	},
+	{
+		"name": "HUST-Courses-Archive",
+		"description": "Archived courses from the School of Computer Science and Technology, Huazhong University of Science and Technology.",
+		"url": "https://github.com/Robert-Stackflow/HUST-Courses-Archive"
+	},
+	{
+		"name": "HUST-Miniob",
+		"description": "Huazhong University of Science and Technology System Capability Training-DBMS.",
+		"url": "https://github.com/Robert-Stackflow/HUST-Miniob"
+	}
+]

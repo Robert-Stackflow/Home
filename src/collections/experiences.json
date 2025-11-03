@@ -1,0 +1,16 @@
+[
+	{
+		"dates": "September 2024 · Present",
+		"role": "研究生",
+		"company": "华中科技大学",
+		"description": "计算机科学与技术在读硕士，研究方向为大语言模型",
+		"logo": "/assets/images/experiences/hust.png"
+	},
+	{
+		"dates": "September 2020 · July 2024",
+		"role": "本科生",
+		"company": "华中科技大学",
+		"description": "计算机科学与技术学士学位",
+		"logo": "/assets/images/experiences/hust.png"
+	}
+]
