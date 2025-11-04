@@ -1,9 +1,7 @@
 ---
-layout: ../../layouts/post.astro
 title: 编译原理笔记
 description: 华中科技大学计算机科学与技术学院编译笔记，包括文法与语言、词法分析、语法分析、语义分析、中间代码生成、代码优化、目标代码生成
-dateFormatted: June 24, 2023
-date: 2023-07-24 16:04:23
+pubDate: 2023-07-24 16:04:23
 categories:
   - 课程笔记
 keywords:
@@ -14,10 +12,10 @@ keywords:
 tags:
   - 课程笔记
   - 编译原理
-mathjax: true
-
-cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
+heroImage: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
 ---
+
+import { Image } from "astro:assets";
 
 ## 大纲
 
@@ -66,9 +64,9 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
     - 边翻译边执行，翻译一句执行一句，一次翻译，一次执行
     - 每次执行都离不开解释程序
 
-- 编译过程
+  <Image src="https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp0-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.png" width={400} alt="编译过程" inferSize={true} loading="lazy"/>
 
-  {% img https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp0-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.png 400 编译过程 %}
+- 编译过程
   - 前端：与源语言有关，与目标机器无关
   - 后端：与目标机器有关，与源语言无关
   - 词法分析
@@ -98,7 +96,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
 
 - 编译程序的结构
 
-  {% img https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp1-%E7%BC%96%E8%AF%91%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84.png 400 编译系统结构 %}
+  <Image src="https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp1-%E7%BC%96%E8%AF%91%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84.png" width={400} alt="编译系统结构" inferSize={true} loading="lazy"/>
 
 ## 二、文法与语言
 
@@ -113,7 +111,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
   - 符号串集合
     - 如果集合$A$的元素都是字母表$∑$上的符号串，则称集合$A$为$∑$上的符号串集合，简称**串集**
     - 运算：乘积、和、方幂、正闭包、星闭包
-    - 若$A$为任一字母表，则$A^{\ast}$是该字母表上的所有符号串（含空串）的集合
+    - 若$A$为任一字母表，则$A^\{\ast\}$是该字母表上的所有符号串（含空串）的集合
 
 - 文法
   - 文法$G$定义为四元组$G=(V_N,V_T,P,S)$
@@ -128,14 +126,14 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
     - 由$P$中的规则直接进行的串归约称为直接归约或一步归约
 
   - 多步推导与多步规约
-    - 由串$\alpha$经过$n$步推导出$\beta$，记作$\alpha\xrightarrow{+}\beta$称之为多步推导
+    - 由串$\alpha$经过$n$步推导出$\beta$，记作$\alpha\xrightarrow\{+\}\beta$称之为多步推导
     - 相应地有多步归约
 
-    > 直接推导与多步推导可以记为$\alpha\xrightarrow{\ast}\beta$
+    > 直接推导与多步推导可以记为$\alpha\xrightarrow\{\ast\}\beta$
 
   - 相关定义
-    - 句型：如果$G[S]$满足$S\xrightarrow{\ast}\beta$，则$\beta$为$G[S]$的句型
-    - 句子：如果$\beta\in V_T^{\ast}$，则$\beta$为$G[S]$的句子；句子也是句型
+    - 句型：如果$G[S]$满足$S\xrightarrow\{\ast\}\beta$，则$\beta$为$G[S]$的句型
+    - 句子：如果$\beta\in V_T^\{\ast\}$，则$\beta$为$G[S]$的句子；句子也是句型
     - 语言：文法$G$的句子集合，记为$L(G)$
     - 文法等价：如果$L(G_1)=L(G_2)$，则$G_1$与$G_2$等价
 
@@ -182,13 +180,13 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
   - 正规文法：即右线性$3$型文法
 
   - 正规式
-    - $𝜀$和$𝜙$都是正规式，其正规集分别是${ε}$和$𝜙$
-    - $∀𝑎∈∑$，则$𝑎$是$∑$上的正规式，其正规集为${a}$
+    - $𝜀$和$𝜙$都是正规式，其正规集分别是$\{ε\}$和$𝜙$
+    - $∀𝑎∈∑$，则$𝑎$是$∑$上的正规式，其正规集为$\{a\}$
     - 如果$r$和$s$都是$∑$上的正规式，则（算符优先级由高到低 ：\*，·，|）
       - $(r)$是正规式，它表示的正规集为$L(r)$
       - $r|s$是正规式，它表示的正规集为$L(r)∪L(s)$
       - $r·s$是正规式，它表示的正规集为$L(r)·L(s)$
-      - $r^{\ast}$是正规式，它表示的正规集为$L(r^{\ast})=L(r)^{\ast}$
+      - $r^\{\ast\}$是正规式，它表示的正规集为$L(r^\{\ast\})=L(r)^\{\ast\}$
 
     - 若两个正规式所表示的正规集相同，则称这两个正规式等价
     - 如果正规式$r$和文法$G$，有$L(r)$＝$L(G)$则称正规式$r$和文法$G$是等价的
@@ -211,10 +209,10 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
 
     - $NFA$
       - $f$指状态转移函数集合，为$K\times(\Sigma\cup\{\epsilon\})\rightarrow P(K)$的单值部分映射，其中$P(K)$表示$K$的幂集
-      - 如果$α\in\Sigma^{\ast}$，$f'(S,α)∩Z≠Φ$，则称符号串$α$是$NFA M$所接受的
+      - 如果$α\in\Sigma^\{\ast\}$，$f'(S,α)∩Z≠Φ$，则称符号串$α$是$NFA M$所接受的
 
     - $NFA$到$DFA$的转换——子集法
-      - 若对于$NFA M$有$I\subset K,α\in\Sigma^{\ast}$，则$Move(I,a)=\displaystyle\cup\_{q\in I}f(q,a)$
+      - 若对于$NFA M$有$I\subset K,α\in\Sigma^\{\ast\}$，则$Move(I,a)=\displaystyle\cup\_\{q\in I\}f(q,a)$
       - 定义$\epsilon-Closure(I)\cup=Move(\epsilon-Closure(I),\epsilon)$
       - 以$\epsilon-Closure(\{s_0\})$为初始状态$S_0$，计算$\epsilon-Closure(Move(\{s_0\},z))$，如果该状态不在状态集中则添加之
       - 循环为每个新状态进行以上操作，即可得到$DFA$的状态集与转换函数
@@ -232,7 +230,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
 |         |       正规式产生式       |                           文法产生式                            |
 | :-----: | :----------------------: | :-------------------------------------------------------------: |
 | 规则$1$ |    $A\rightarrow xy$     |                $A\rightarrow xB,B\rightarrow y$                 |
-| 规则$2$ | $A\rightarrow x^{\ast}y$ | $A\rightarrow xB,A\rightarrow y,B\rightarrow xB,B\rightarrow y$ |
+| 规则$2$ | $A\rightarrow x^\{\ast\}y$ | $A\rightarrow xB,A\rightarrow y,B\rightarrow xB,B\rightarrow y$ |
 | 规则$3$ | $A\rightarrow x\vert y$  |                 $A\rightarrow x,A\rightarrow y$                 |
 
 - 正规文法转换为正规式
@@ -240,7 +238,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
 |         |            文法产生式             |       正规式产生式       |
 | :-----: | :-------------------------------: | :----------------------: |
 | 规则$1$ | $A\rightarrow xB,B\rightarrow y$  |    $A\rightarrow xy$     |
-| 规则$2$ |     $A\rightarrow xA\vert y$      | $A\rightarrow x^{\ast}y$ |
+| 规则$2$ |     $A\rightarrow xA\vert y$      | $A\rightarrow x^\{\ast\}y$ |
 | 规则$3$ | $A\rightarrow x$,$A\rightarrow y$ | $A\rightarrow x\vert y$  |
 
 - 有穷自动机转换到正规式
@@ -250,12 +248,12 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
 
   - 反复应用以下规则，直到只剩下$X$和$Y$为止，这时$X\rightarrow Y$上的式子即为正规式
 
-    {% img https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp2-NFA%E5%88%B0%E6%AD%A3%E8%A7%84%E5%BC%8F.png 400 NFA到正规式 %}
+    <Image src="https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp2-NFA%E5%88%B0%E6%AD%A3%E8%A7%84%E5%BC%8F.png" width={400} alt="NFA到正规式" inferSize={true} loading="lazy"/>
 
 - 正规式转换到有穷自动机
   - 新增$X$和$Y$分别作为开始状态和接收状态，$X\rightarrow Y$上的式子为正规式
 
-    {% img https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp3-%E6%AD%A3%E8%A7%84%E5%BC%8F%E5%88%B0NFA.png 400 正规式到NFA %}
+    <Image src="https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp3-%E6%AD%A3%E8%A7%84%E5%BC%8F%E5%88%B0NFA.png" width={400} alt="正规式到NFA" inferSize={true} loading="lazy"/>
 
   - 直到每条弧上只有单个符号
 
@@ -284,18 +282,18 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
   - $FOLLOW$集
     - 参数为非终结符
     - 满足#$\in FOLLOW(S)$
-    - 若$S\xrightarrow{\ast}\cdots A$，则#$\in FOLLOW(A)$
-    - 若$S\xrightarrow{\ast}\alpha A\beta$，$\beta\xrightarrow{\ast}\epsilon$，则#$\in FOLLOW(A)$
-    - 若$A\xrightarrow{\ast}\cdots B$或者$A\xrightarrow{\ast}\cdots B\beta$，$\beta\xrightarrow{\ast}\epsilon$，则$FOLLOW(A)\subseteq FOLLOW(B)$，$FOLLOW(B)\cup= FOLLOW(A)$
+    - 若$S\xrightarrow\{\ast\}\cdots A$，则#$\in FOLLOW(A)$
+    - 若$S\xrightarrow\{\ast\}\alpha A\beta$，$\beta\xrightarrow\{\ast\}\epsilon$，则#$\in FOLLOW(A)$
+    - 若$A\xrightarrow\{\ast\}\cdots B$或者$A\xrightarrow\{\ast\}\cdots B\beta$，$\beta\xrightarrow\{\ast\}\epsilon$，则$FOLLOW(A)\subseteq FOLLOW(B)$，$FOLLOW(B)\cup= FOLLOW(A)$
 
   - $SELECT$集
     - 参数为产生式$A\rightarrow\alpha$
 
       $$
-      SELECT(A\rightarrow\alpha)=\begin{cases}
-         FIRST(\alpha) & a\not\xrightarrow{\ast}\epsilon \\\\[2ex]
-         (FISRT(\alpha)-\epsilon)\cup FOLLOW(A) & a\xrightarrow{\ast}\epsilon
-      \end{cases}
+      SELECT(A\rightarrow\alpha)=\begin\{cases\}
+         FIRST(\alpha) & a\not\xrightarrow\{\ast\}\epsilon \\\\[2ex]
+         (FISRT(\alpha)-\epsilon)\cup FOLLOW(A) & a\xrightarrow\{\ast\}\epsilon
+      \end\{cases\}
       $$
 
     - $SELECT$集是终结符号集$V_T$的子集
@@ -311,7 +309,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
       - 特别地，如果$α=ε$时，则称为文法$G$的直接左递归规则
       - 如果$β=ε$时，则称为文法$G$的直接右递归规则
     - 间接递归
-      - 如果存在推导$A\rightarrow \alpha\xrightarrow{\ast}\lambda A\mu$，则规则$A→α$称为文法$G$的间接递归规则
+      - 如果存在推导$A\rightarrow \alpha\xrightarrow\{\ast\}\lambda A\mu$，则规则$A→α$称为文法$G$的间接递归规则
       - 特别地，如果$λ=ε$时，则称为文法$G$的间接左递归规则
       - 如果$μ=ε$时，则称为文法$G$的间接右递归规则
     - 消除直接左递归
@@ -371,7 +369,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
 - 活动记录
   - 栈帧（$frame$）/过程活动记录（$AR$）：用以存放过程的一次执行所需要信息的一段连续的存储区称为过程活动记录
 
-    {% img https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp4-%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95.png 400 活动记录 %}
+    <Image src="https://picbed.cloudchewie.com/blog/post/Compilation-Principle/Chp4-%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95.png" width={400} alt="活动记录" inferSize={true} loading="lazy"/>
 
   - 访问链指向其它过程活动记录的指针单元，用于访问分配在其它过程活动记录的非局部变量
 
@@ -420,8 +418,8 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
     - 流图的结点是一些基本块
     - 从基本块$B$到基本块$C$之间有一条边当且仅当基本块$C$的第一个指令可能紧跟在$B$的最后一条指令之后执行——有一个从$B$的结尾跳转到$C$的开头的条件或无条件跳转语句
   - 必经结点集$D(n)$
-    - 初始化：$D(1)={1},D(2)=D(3)=\cdots=D(n)={1,2,3,4,5,6,\cdots,n}$
-    - 计算：$D(i)={i}\cup(\cap D(p)\vert p\in Pred(n))$
+    - 初始化：$D(1)=\{1\},D(2)=D(3)=\cdots=D(n)=\{1,2,3,4,5,6,\cdots,n\}$
+    - 计算：$D(i)=\{i\}\cup(\cap D(p)\vert p\in Pred(n))$
     - 重复计算直到$D(n)$不再变化
   - 回边：$n\rightarrow m$，且$m\space DOM\space n$，则称$n\rightarrow m$是**回边**
   - 自然循环：给定一个回边$n\rightarrow d$，该回边的自然循环为：$d$，以及所有可以不经过$d$而到达$n$的结点——循环加入前驱节点
@@ -437,7 +435,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
     - 计算各入口的定值，根据入口处定值推算出口处的定值
     - 初始：$out[ENTRY] = \emptyset$，每个基本块$out[B] = \emptyset$
     - 计算：某个$out$值发生变化，即每个初始块重新计算$in$和$out$
-      - $in[B] = ∪\_{P∈pred(B)} out[P]$
+      - $in[B] = ∪\_\{P∈pred(B)\} out[P]$
       - $out[B] = gen_B ∪(int[B] - kill_B)$
     - 重复计算，直到$out$值不再变化
   - $UD$链：点$u$引用$A$, 能到达点$u$的$A$的所有定值点的全体称为$A$在点$u$的引用-定值链
@@ -450,7 +448,7 @@ cover: https://picbed.cloudchewie.com/blog/cover/compile.jpg!cover
       - $def_B$：$B$中定值前未引用的变量集合(已知量)
     - 初始：$in[EXIT] = \emptyset$
     - 计算：某个$in$值发生变化，即每个初始块重新计算$in$和$out$
-      - $out[B] = U\_{S\in succ(B)}in[S]$
+      - $out[B] = U\_\{S\in succ(B)\}in[S]$
       - $in[B]=use_B\cup(out[B]-def_B)$
     - 重复计算，直到$in$值不再变化
   - $DU$链：设变量$x$有一个定值$d$，该定值所有能够到达的引用$u$的集合称为$x$在$d$处的定值-引用链

@@ -1,11 +1,22 @@
 ---
-// PostItem.astro
 const { post } = Astro.props;
+
+const isInternal =
+  post.link.startsWith("/") || post.link.includes(import.meta.env.SITE);
+const target = isInternal ? "_self" : "_blank";
+const rel = isInternal ? "" : "noopener noreferrer";
+const dateFormatted = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+}).format(new Date(post.pubDate));
 ---
 
 <div
   class="relative border border-transparent border-dashed cursor-pointer p-7 group rounded-2xl"
-  onclick={`window.open('${post.link}', '_blank')`}
+  onclick={`window.open('${post.link}', '${target}')`}
 >
   <div
     class="absolute inset-0 z-20 w-full h-full duration-300 ease-out bg-white border border-dashed dark:bg-neutral-950 rounded-2xl border-neutral-300 dark:border-neutral-600 group-hover:-translate-x-1 group-hover:-translate-y-1"
@@ -21,8 +32,8 @@ const { post } = Astro.props;
     <h2 class="flex items-center mb-3">
       <a
         href={post.link}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={target}
+        rel={rel}
         class="text-base font-bold leading-tight tracking-tight sm:text-lg dark:text-neutral-100"
       >
         {post.title}
@@ -65,7 +76,7 @@ const { post } = Astro.props;
     <div
       class="mt-2.5 text-xs font-medium text-neutral-800 dark:text-neutral-300"
     >
-      Posted on {post.dateFormatted}
+      发布于 {dateFormatted}
     </div>
   </div>
 </div>

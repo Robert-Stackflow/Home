@@ -1,0 +1,50 @@
+---
+import PageHeading from "@/components/page-heading.astro";
+import PostItem from "@/components/post-item.astro";
+import Layout from "@/layouts/main.astro";
+
+import { getCollection } from "astro:content";
+const allPosts = await getCollection("post");
+
+const { count } = Astro.props;
+
+const sortedPosts = allPosts
+  .map((post) => ({
+    ...post,
+    date: post.data.pubDate,
+  }))
+  .sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const posts = sortedPosts.slice(0, count).map((post) => {
+  return {
+    ...(post.data || {}),
+    link: `/post/${post.id}`,
+  };
+});
+
+// import Parser from "rss-parser";
+// const feedUrl = "https://robert-stackflow.github.io/atom.xml";
+// const parser = new Parser();
+// const feed = await parser.parseURL(feedUrl);
+// const posts = feed.items.map((item) => ({
+//   title: item.title,
+//   link: item.link,
+//   description: item.contentSnippet || item.content || item.summary || "",
+//   dateFormatted: item.pubDate
+//     ? new Date(item.pubDate).toLocaleDateString("zh-CN")
+//     : "",
+// }));
+---
+
+<Layout title="我的文章">
+  <section class="relative z-20 max-w-5xl mx-auto my-12 px-7 lg:px-0">
+    <PageHeading
+      title="我的文章"
+      description="除了写代码，我也喜欢记录所思所想，这里是我最近写的一些文章。"
+    />
+
+    <div class="z-50 flex flex-col items-stretch w-full gap-5 my-8">
+      {posts.map((post) => <PostItem post={post} />)}
+    </div>
+  </section>
+</Layout>

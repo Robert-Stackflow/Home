@@ -1,8 +1,7 @@
 ---
-layout: ../../layouts/post.astro
 title: Hello World
 description: Hello World 初次见面！
-dateFormatted: Dec 3, 2025
+pubDate: 2025-11-03 16:04:23
 ---
 
 # Hello World

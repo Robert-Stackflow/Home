@@ -1,9 +1,20 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import Layout from "./main.astro";
-const { frontmatter } = Astro.props;
+
+type Props = CollectionEntry<"post">["data"];
+
+const { title, description, pubDate } = Astro.props;
 ---
 
-<Layout title={frontmatter.title}>
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+  />
+</head>
+
+<Layout title={title} description={description}>
   <main
     class="relative z-30 max-w-5xl pb-1 mx-auto mt-10 bg-white dark:bg-neutral-950 md:rounded-t-md text-neutral-900"
   >
@@ -21,7 +32,7 @@ const { frontmatter } = Astro.props;
       <h1
         class="w-full max-w-4xl mx-auto text-3xl font-bold leading-tight tracking-tighter text-left md:mb-12 md:text-4xl dark:text-neutral-100 lg:text-5xl md:leading-none"
       >
-        {frontmatter.title}
+        {title}
       </h1>
     </div>
 
