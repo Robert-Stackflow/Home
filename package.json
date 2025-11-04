@@ -21,6 +21,10 @@
 	},
 	"packageManager": "pnpm@9.12.2",
 	"dependencies": {
+		"rehype-accessible-emojis": "^0.3.2",
+		"rehype-katex": "^7.0.1",
+		"remark-math": "^6.0.0",
+		"remark-toc": "^9.0.0",
 		"rss-parser": "^3.13.0"
 	}
 }
