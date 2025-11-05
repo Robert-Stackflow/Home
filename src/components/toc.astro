@@ -1,0 +1,93 @@
+---
+interface Heading {
+  depth: number; // The heading level (h1 = 1, h2 = 2, etc)
+  slug: string; // The ID of the heading for linking
+  text: string; // The text content of the heading
+}
+
+interface Props {
+  headings: Heading[]; // Array of headings from your markdown content
+  levels?: 1 | 2 | 3 | 4 | 5; // How many levels of headers to show in TOC (default: 2)
+}
+
+const { headings, levels = 3 } = Astro.props as Props;
+
+const filteredHeadings = headings.filter((heading) => heading.depth <= levels);
+---
+
+<div class="border-base-400 rounded-xs border p-3 text-sm leading-tight">
+  <h4 class="text-xl font-medium">Table of Contents</h4>
+  <ul class="mt-4 flex flex-col gap-2">
+    {
+      filteredHeadings.map((heading) => (
+        <li
+          class:list={{
+            "pl-3": heading.depth === 2,
+            "pl-6": heading.depth === 3,
+          }}
+        >
+          <a
+            href={`#${heading.slug}`}
+            class="toc-link transition hover:text-blue-600"
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style lang="scss">
+  .toc-current {
+    @apply text-blue-600;
+  }
+</style>
+
+<script>
+  let wrappingElement: Element | null;
+  let observeHeaderTags: IntersectionObserver;
+  let allHeaderTags: NodeListOf<Element>;
+
+  function setCurrent(e: IntersectionObserverEntry[]) {
+    var allSectionLinks = document.querySelectorAll(".toc-link");
+    e.map((i) => {
+      if (i.isIntersecting === true) {
+        allSectionLinks.forEach((link) => link.classList.remove("toc-current"));
+        const targetLink = document.querySelector(
+          `a[href="#${i.target.id}"].toc-link`
+        );
+
+        if (targetLink) targetLink.classList.add("toc-current");
+      }
+    });
+  }
+
+  function initTOC() {
+    wrappingElement = document.querySelector(".markdown-content");
+    if (wrappingElement !== null) {
+      allHeaderTags = wrappingElement.querySelectorAll(
+        ":scope > h1, :scope > h2, :scope > h3"
+      );
+    }
+
+    let options: IntersectionObserverInit = {
+      root: null,
+      rootMargin: "0px 0px -50% 0px",
+      threshold: [1],
+    };
+
+    observeHeaderTags = new IntersectionObserver(setCurrent, options);
+    if (wrappingElement === null) {
+      return;
+    }
+    allHeaderTags.forEach((tag) => {
+      tag.classList.add("scroll-mt-24");
+      observeHeaderTags.observe(tag);
+    });
+  }
+
+  initTOC();
+
+  document.addEventListener("astro:after-swap", initTOC);
+</script>

@@ -1,20 +1,25 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
 import Layout from "./main.astro";
+import FormattedDate from "@/components/formatted-date.astro";
+import TableOfContents from "@/components/toc.astro";
 
-type Props = CollectionEntry<"post">["data"];
+type Props = {
+  post: CollectionEntry<"post">;
+  headings: import("astro").MarkdownHeading[];
+};
 
-const { title, description, pubDate } = Astro.props;
+const { post, headings } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage } = post.data;
 ---
 
-<head>
+<Layout title={title} description={description}>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    slot="reject-head"
   />
-</head>
-
-<Layout title={title} description={description}>
   <main
     class="relative z-30 max-w-5xl pb-1 mx-auto mt-10 bg-white dark:bg-neutral-950 md:rounded-t-md text-neutral-900"
   >
@@ -37,9 +42,33 @@ const { title, description, pubDate } = Astro.props;
     </div>
 
     <article
-      class="w-full max-w-4xl mx-auto mb-20 prose-sm prose px-7 lg:px-0 lg:prose-lg dark:prose-invert"
+      class="w-full max-w-4xl mx-auto mb-20 prose-sm prose px-7 lg:px-0 lg:prose-lg dark:prose-invert prose"
     >
+      <div class="hero-image">
+        {
+          heroImage && (
+            <Image width={1020} height={510} src={heroImage} alt="" />
+          )
+        }
+      </div>
+      <div class="title">
+        <div class="date">
+          <FormattedDate date={pubDate} />
+          {
+            updatedDate && (
+              <div class="last-updated-on">
+                更新于 <FormattedDate date={updatedDate} />
+              </div>
+            )
+          }
+        </div>
+      </div>
       <slot />
     </article>
+    <aside>
+      <div class="sticky top-20">
+        <TableOfContents headings={headings} levels={3} />
+      </div>
+    </aside>
   </main>
 </Layout>

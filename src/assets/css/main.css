@@ -19,7 +19,7 @@ label,
 textarea {
   font-family:
     LXGW WenKai Screen,
-    sans-serif !important;
+    sans-serif;
 }
 .prose img {
   border-radius: 30px;
@@ -86,4 +86,22 @@ html.dark {
     opacity: 1;
     transform: translate3d(0, 10, 0);
   }
+}
+
+.katex {
+  font-size: 0.95em;
+}
+
+.katex-display {
+  font-size: 1.05em;
+  margin: 1em 0;
+}
+
+.katex .mord,
+.katex .mop {
+  font-weight: 400;
+}
+
+.katex {
+  font-family: "Times New Roman", "STIX Two Math", serif;
 }

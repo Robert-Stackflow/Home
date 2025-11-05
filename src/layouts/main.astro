@@ -25,6 +25,7 @@ const { title, description } = Astro.props;
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.png" />
     <script src="../assets/css/main.css"></script>
     <Fragment set:html={import.meta.env.HEADER_INJECT} />
+    <slot name="reject-head"/>
   </head>
   <body class="antialiased bg-white dark:bg-neutral-950">
     <SquareLines />
