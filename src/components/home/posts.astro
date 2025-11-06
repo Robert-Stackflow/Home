@@ -1,10 +1,29 @@
 ---
-import PostItem from "../post-item.astro";
-import Button from "../button.astro";
+import PostItem from "@/components/item/post-item.astro";
+import Button from "@/components/ui/button.astro";
 import { get_feed_posts } from "@/utils/feed";
+import { USE_FEED } from "@/consts";
+import { getCollection } from "astro:content";
 
-const posts = await get_feed_posts();
-var feedUrl = "/rss.xml";
+const allPosts = await getCollection("post");
+
+const { count } = Astro.props;
+
+const sortedPosts = allPosts
+  .map((post) => ({
+    ...post,
+    date: post.data.pubDate,
+  }))
+  .sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const posts = USE_FEED
+  ? await get_feed_posts(3)
+  : sortedPosts.slice(0, count).map((post) => {
+      return {
+        ...(post.data || {}),
+        link: `/post/${post.id}`,
+      };
+    });
 ---
 
 <section class="max-w-5xl mx-auto px-7 lg:px-0">

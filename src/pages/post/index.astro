@@ -1,9 +1,10 @@
 ---
-import PageHeading from "@/components/page-heading.astro";
-import PostItem from "@/components/post-item.astro";
+import PageHeading from "@/components/layout/page-heading.astro";
+import PostItem from "@/components/item/post-item.astro";
 import Layout from "@/layouts/main.astro";
 import { getCollection } from "astro:content";
 import { get_feed_posts } from "@/utils/feed";
+import { USE_FEED } from "@/consts";
 
 const allPosts = await getCollection("post");
 
@@ -16,13 +17,14 @@ const sortedPosts = allPosts
   }))
   .sort((a, b) => b.date.getTime() - a.date.getTime());
 
-// const posts = sortedPosts.slice(0, count).map((post) => {
-//   return {
-//     ...(post.data || {}),
-//     link: `/post/${post.id}`,
-//   };
-// });
-const posts = await get_feed_posts(9999);
+const posts = USE_FEED
+  ? await get_feed_posts(9999)
+  : sortedPosts.slice(0, count).map((post) => {
+      return {
+        ...(post.data || {}),
+        link: `/post/${post.id}`,
+      };
+    });
 ---
 
 <Layout title="我的文章">

@@ -1,0 +1,40 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+
+export interface Props {
+  currentPost: CollectionEntry<"post">;
+}
+
+const { currentPost } = Astro.props;
+const allPosts = await getCollection("post");
+
+const related = allPosts
+  .filter((p) => p.id !== currentPost.id)
+  .filter(
+    (p) =>
+      p.data.categories?.some((c) =>
+        currentPost.data.categories?.includes(c)
+      ) || p.data.tags?.some((t) => currentPost.data.tags?.includes(t))
+  )
+  .slice(0, 5);
+---
+
+{
+  related.length > 0 && (
+    <div class="mt-10">
+      <h2 class="text-lg font-semibold mb-4">推荐阅读</h2>
+      <ul class="space-y-2">
+        {related.map((post) => (
+          <li>
+            <a
+              href={`/post/${post.id}`}
+              class="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              {post.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}

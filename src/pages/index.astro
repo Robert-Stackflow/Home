@@ -1,9 +1,9 @@
 ---
-import Button from "../components/button.astro";
-import Projects from "../components/home/projects.astro";
-import Separator from "../components/home/separator.astro";
-import Writings from "../components/home/posts.astro";
-import Layout from "../layouts/main.astro";
+import Button from "@/components/ui/button.astro";
+import Projects from "@/components/home/projects.astro";
+import Separator from "@/components/ui/separator.astro";
+import Posts from "@/components/home/posts.astro";
+import Layout from "@/layouts/main.astro";
 import { Image } from "astro:assets";
 ---
 
@@ -62,5 +62,5 @@ import { Image } from "astro:assets";
   <Separator text="看看我的项目" />
   <Projects />
   <Separator text="看看我的文章" />
-  <Writings />
+  <Posts count={3} />
 </Layout>
