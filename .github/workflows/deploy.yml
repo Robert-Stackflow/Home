@@ -28,33 +28,67 @@ jobs:
       - name: Build Astro site
         run: npm run build
 
-      # 上传到腾讯云 COS (S3 兼容方式)
       - name: Upload to COS (Tencent Cloud)
         uses: Robert-Stackflow/upload-s3-action@master
         with:
-          endpoint: ${{ secrets.AWS_ENDPOINT }} # 例如：https://cos.ap-guangzhou.myqcloud.com
-          aws_key_id: ${{ secrets.AWS_SECRET_ID }} # 腾讯云 API 密钥
+          endpoint: ${{ secrets.AWS_ENDPOINT }}
+          aws_key_id: ${{ secrets.AWS_SECRET_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_bucket: ${{ secrets.AWS_BUCKET }} # 存储桶名称，如 example-bucket
-          source_dir: dist # Astro 输出目录
-          destination_dir: / # 上传到桶的根目录，可改为指定文件夹
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: dist
+          destination_dir: /
 
-      # 发送 PushPlus 通知
       - name: Send PushPlus Notification
-        if: always() # 无论成功或失败都执行
+        if: always()
         run: |
+          # 拼接当前 workflow 日志地址
+          LOG_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          # 获取当前时间
+          BUILD_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+
+          # CI 信息
+          WORKFLOW_NAME="${{ github.workflow }}"
+          JOB_NAME="${{ github.job }}"
+
           if [ "${{ job.status }}" = "success" ]; then
-            STATUS_MSG="✅ 部署成功\n项目已构建并上传至 COS\n分支：${{ github.ref_name }}"
+            STATUS_MSG="<h3 style='color:green;'>Homepage 网站部署成功</h3>
+              <table border='1' cellpadding='6' cellspacing='0'>
+              <tr><th colspan='2'>CI 信息</th></tr>
+              <tr><td>Workflow</td><td>${WORKFLOW_NAME}</td></tr>
+              <tr><td>Job</td><td>${JOB_NAME}</td></tr>
+              <tr><td>构建时间</td><td>${BUILD_TIME}</td></tr>
+              </table>
+              <br>
+              <table border='1' cellpadding='6' cellspacing='0'>
+              <tr><th colspan='2'>部署信息</th></tr>
+              <tr><td>状态</td><td>已构建并上传至 COS</td></tr>
+              <tr><td>分支</td><td>${{ github.ref_name }}</td></tr>
+              <tr><td>日志</td><td><a href='${LOG_URL}'>查看日志</a></td></tr>
+              </table>"
           else
-            STATUS_MSG="❌ 部署失败\n请检查 GitHub Actions 日志\n分支：${{ github.ref_name }}"
+            STATUS_MSG="<h3 style='color:red;'>Homepage 网站部署失败</h3>
+              <table border='1' cellpadding='6' cellspacing='0'>
+              <tr><th colspan='2'>CI 信息</th></tr>
+              <tr><td>Workflow</td><td>${WORKFLOW_NAME}</td></tr>
+              <tr><td>Job</td><td>${JOB_NAME}</td></tr>
+              <tr><td>构建时间</td><td>${BUILD_TIME}</td></tr>
+              </table>
+              <br>
+              <table border='1' cellpadding='6' cellspacing='0'>
+              <tr><th colspan='2'>部署信息</th></tr>
+              <tr><td>状态</td><td>部署出错，请检查 GitHub Actions 日志</td></tr>
+              <tr><td>分支</td><td>${{ github.ref_name }}</td></tr>
+              <tr><td>日志</td><td><a href='${LOG_URL}'>查看日志</a></td></tr>
+              </table>"
           fi
 
           curl -X POST \
             -H "Content-Type: application/json" \
             -d "{
               \"token\": \"${{ secrets.PUSHPLUS_TOKEN }}\",
-              \"title\": \"Astro 部署结果通知\",
+              \"title\": \"Homepage 网站部署结果通知\",
               \"content\": \"${STATUS_MSG}\",
-              \"template\": \"txt\"
+              \"template\": \"html\"
             }" \
             https://www.pushplus.plus/send
